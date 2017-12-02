@@ -1,18 +1,28 @@
 import java.awt.*;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.image.*;
+import java.io.IOException;
+import javax.sound.sampled.Clip;
+
 class Main {
-    public static void main(String[] args) {
-        JFrame simonFrame = new JFrame("Simon");
-        simonFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    /**
+     * Gets the file and puts it in a JLabel
+     *
+     * @param pathname JPG
+     * @return JLabel
+     */
+    private static JLabel getsimon(String pathname) {
+
         BufferedImage REDSIMON = null;
-        JPanel mainpanel = new JPanel(new BorderLayout());
-        JPanel npanel = new JPanel(new BorderLayout());
-        JPanel spanel = new JPanel(new BorderLayout());
+
         try {
-            REDSIMON = ImageIO.read(new File("RedSimon.jpg"));
+            REDSIMON = ImageIO.read(new File(pathname));
         } catch(Exception e){
             e.printStackTrace();
             System.exit(1);
@@ -20,46 +30,40 @@ class Main {
         ImageIcon imageicon = new ImageIcon(REDSIMON);
         JLabel jlabel = new JLabel();
         jlabel.setIcon(imageicon);
+        return jlabel;
+    }
+
+    public static void main(String[] args) {
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("the dream.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JFrame simonFrame = new JFrame("Simon");
+        simonFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        JPanel mainpanel = new JPanel(new BorderLayout());
+        JPanel npanel = new JPanel(new BorderLayout());
+        JPanel spanel = new JPanel(new BorderLayout());
+
+        JLabel jlabel = getsimon("RedSimon.jpg");
         npanel.add(jlabel, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel, BorderLayout.EAST);
 
-
-        BufferedImage BLUESIMON = null;
-        try {
-            BLUESIMON = ImageIO.read(new File("BlueSimon.jpg"));
-        } catch(Exception e){
-            e.printStackTrace();
-            System.exit(1);
-        }
-        ImageIcon imageicon1 = new ImageIcon(BLUESIMON);
-        JLabel jlabel1 = new JLabel();
-        jlabel1.setIcon(imageicon1);
+        JLabel jlabel1 = getsimon("BlueSimon.jpg");
         npanel.add(jlabel1, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel1, BorderLayout.WEST);
 
-        BufferedImage GREENSIMON = null;
-        try {
-            GREENSIMON = ImageIO.read(new File("GreenSimon.jpg"));
-        } catch(Exception e){
-            e.printStackTrace();
-            System.exit(1);
-        }
-        ImageIcon imageicon2 = new ImageIcon(GREENSIMON);
-        JLabel jlabel2 = new JLabel();
-        jlabel2.setIcon(imageicon2);
+        JLabel jlabel2 = getsimon("GreenSimon.jpg");
         spanel.add(jlabel2, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel2, BorderLayout.NORTH);
 
-        BufferedImage YELLOWSIMON = null;
-        try {
-            YELLOWSIMON = ImageIO.read(new File("YellowSimon.jpg"));
-        } catch(Exception e){
-            e.printStackTrace();
-            System.exit(1);
-        }
-        ImageIcon imageicon3 = new ImageIcon(YELLOWSIMON);
-        JLabel jlabel3 = new JLabel();
-        jlabel3.setIcon(imageicon3);
+        JLabel jlabel3 = getsimon("YellowSimon.jpg");
         spanel.add(jlabel3, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel3, BorderLayout.SOUTH);
 

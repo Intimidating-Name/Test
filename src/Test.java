@@ -3,10 +3,8 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.image.*;
-import java.io.IOException;
 import javax.sound.sampled.Clip;
 
 class Main {
@@ -32,7 +30,6 @@ class Main {
         jlabel.setIcon(imageicon);
         return jlabel;
     }
-
     public static void main(String[] args) {
 
         try {
@@ -73,5 +70,10 @@ class Main {
         simonFrame.pack();
         simonFrame.setLocationRelativeTo(null);
         simonFrame.setVisible(true);
+        simonFrame.setResizable(false);
+
+        jlabel1 = getsimon("GlowingBlueSimon.jpg");
+        npanel.add(jlabel1, BorderLayout.WEST);
+        npanel.revalidate();
     }
 }

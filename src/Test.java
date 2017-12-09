@@ -8,8 +8,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 import java.awt.image.*;
 import javax.sound.sampled.Clip;
+import java.util.Random;
+import java.util.Scanner;
 
 class Main {
+
 
     /**
      * Gets the file and puts it in a JLabel
@@ -25,7 +28,7 @@ class Main {
         try {
             image = ImageIO.read(new File(pathname + ".jpg"));
             glowing = ImageIO.read(new File(pathname + "Glowing.jpg"));
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
@@ -39,15 +42,19 @@ class Main {
                 super.mousePressed(e);
                 jlabel.setIcon(glowingimageicon);
             }
+
             @Override
-            public void mouseReleased(MouseEvent e){
+            public void mouseReleased(MouseEvent e) {
                 super.mousePressed(e);
                 jlabel.setIcon(imageIcon);
             }
         });
         return jlabel;
     }
+
     public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
 
         try {
             AudioInputStream audio = AudioSystem.getAudioInputStream(new File("the dream.wav"));
@@ -89,5 +96,51 @@ class Main {
         simonFrame.setVisible(true);
         simonFrame.setResizable(false);
 
+        int GUESSES = 3;
+        int BLUE = 0;
+        int RED = 1;
+        int GREEN = 2;
+        int YELLOW = 3;
+        int[] colors = new int[15];
+        Random rand = new Random();
+        for (int i = 0; i < GUESSES; i++) {
+            int color = rand.nextInt(4);
+            colors[i] = color;
+        }
+        for (int i = 0; i < GUESSES; i++) {
+            System.out.print(String.valueOf(i));
+            if (colors[i] == BLUE) {
+                System.out.println("Blue");
+            }
+            if (colors[i] == RED) {
+                System.out.println("Red");
+            }
+            if (colors[i] == GREEN) {
+                System.out.println("Green");
+            }
+            if (colors[i] == YELLOW) {
+                System.out.println("Yellow");
+            }
+        }
+        boolean playing = true;
+        //System.out.println("boom");
+        int pass = 1;
+        while (pass <= GUESSES && playing) {
+            for (int i = 0; (i < GUESSES) && playing; i++) {
+                System.out.println("Pass #" + pass++);
+                for (int j = 0; j < i + 1 && playing; j++) {
+                    System.out.println("Guess the next color!");
+                    System.out.println("color #" + (j + 1));
+                    String guess = scan.next();
+                    if (Integer.parseInt(guess) == colors[j]) {
+                        System.out.println("Good job!");
+                    } else {
+                        System.out.println("Game Over");
+                        playing = false;
+
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -17,17 +19,32 @@ class Main {
      */
     private static JLabel getsimon(String pathname) {
 
-        BufferedImage REDSIMON = null;
+        BufferedImage image = null;
+        BufferedImage glowing = null;
 
         try {
-            REDSIMON = ImageIO.read(new File(pathname));
+            image = ImageIO.read(new File(pathname + ".jpg"));
+            glowing = ImageIO.read(new File(pathname + "Glowing.jpg"));
         } catch(Exception e){
             e.printStackTrace();
             System.exit(1);
         }
-        ImageIcon imageicon = new ImageIcon(REDSIMON);
+        ImageIcon imageIcon = new ImageIcon(image);
+        ImageIcon glowingimageicon = new ImageIcon(glowing);
         JLabel jlabel = new JLabel();
-        jlabel.setIcon(imageicon);
+        jlabel.setIcon(imageIcon);
+        jlabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                jlabel.setIcon(glowingimageicon);
+            }
+            @Override
+            public void mouseReleased(MouseEvent e){
+                super.mousePressed(e);
+                jlabel.setIcon(imageIcon);
+            }
+        });
         return jlabel;
     }
     public static void main(String[] args) {
@@ -48,19 +65,19 @@ class Main {
         JPanel npanel = new JPanel(new BorderLayout());
         JPanel spanel = new JPanel(new BorderLayout());
 
-        JLabel jlabel = getsimon("RedSimon.jpg");
+        JLabel jlabel = getsimon("RedSimon");
         npanel.add(jlabel, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel, BorderLayout.EAST);
 
-        JLabel jlabel1 = getsimon("BlueSimon.jpg");
+        JLabel jlabel1 = getsimon("BlueSimon");
         npanel.add(jlabel1, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel1, BorderLayout.WEST);
 
-        JLabel jlabel2 = getsimon("GreenSimon.jpg");
+        JLabel jlabel2 = getsimon("GreenSimon");
         spanel.add(jlabel2, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel2, BorderLayout.NORTH);
 
-        JLabel jlabel3 = getsimon("YellowSimon.jpg");
+        JLabel jlabel3 = getsimon("YellowSimon");
         spanel.add(jlabel3, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel3, BorderLayout.SOUTH);
 
@@ -72,8 +89,5 @@ class Main {
         simonFrame.setVisible(true);
         simonFrame.setResizable(false);
 
-        jlabel1 = getsimon("GlowingBlueSimon.jpg");
-        npanel.add(jlabel1, BorderLayout.WEST);
-        npanel.revalidate();
     }
 }

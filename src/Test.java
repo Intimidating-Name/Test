@@ -10,6 +10,7 @@ import java.awt.image.*;
 import javax.sound.sampled.Clip;
 import java.util.Random;
 import java.util.Scanner;
+import org.jfugue.player.Player;
 
 class Main {
 
@@ -20,7 +21,7 @@ class Main {
      * @param pathname JPG
      * @return JLabel
      */
-    private static JLabel getsimon(String pathname) {
+    private static JLabel getsimon(String pathname, String note) {
 
         BufferedImage image = null;
         BufferedImage glowing = null;
@@ -36,11 +37,13 @@ class Main {
         ImageIcon glowingimageicon = new ImageIcon(glowing);
         JLabel jlabel = new JLabel();
         jlabel.setIcon(imageIcon);
+        Player player = new Player();
         jlabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 jlabel.setIcon(glowingimageicon);
+                player.play(note);
             }
 
             @Override
@@ -72,19 +75,19 @@ class Main {
         JPanel npanel = new JPanel(new BorderLayout());
         JPanel spanel = new JPanel(new BorderLayout());
 
-        JLabel jlabel = getsimon("RedSimon");
+        JLabel jlabel = getsimon("RedSimon", "C");
         npanel.add(jlabel, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel, BorderLayout.EAST);
 
-        JLabel jlabel1 = getsimon("BlueSimon");
+        JLabel jlabel1 = getsimon("BlueSimon","D");
         npanel.add(jlabel1, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel1, BorderLayout.WEST);
 
-        JLabel jlabel2 = getsimon("GreenSimon");
+        JLabel jlabel2 = getsimon("GreenSimon", "E");
         spanel.add(jlabel2, BorderLayout.EAST);
         //simonFrame.getContentPane().add(jlabel2, BorderLayout.NORTH);
 
-        JLabel jlabel3 = getsimon("YellowSimon");
+        JLabel jlabel3 = getsimon("YellowSimon", "F#");
         spanel.add(jlabel3, BorderLayout.WEST);
         //simonFrame.getContentPane().add(jlabel3, BorderLayout.SOUTH);
 
